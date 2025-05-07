@@ -1,70 +1,84 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Aplicación PWA en React para Control de Asistencia a Eventos
 
-## Available Scripts
+## Prompt Original (Claude 3.7 Sonnet)
 
-In the project directory, you can run:
+> Necesito una aplicación en ReactJS PWA con capacidad de trabajar offline/online, para control de asistencia a eventos de personas.  
+> Tanto los Eventos como las Personas relacionadas a cada Evento ya se encuentran ingresados en el Sistema.  
+> Los Eventos tienen un nombre, descripción, fecha de realización y estado (abierto/cerrado).  
+> Las personas tienen: Nombre, Número de Credencial, DNI, Email.  
+> La aplicación en la home me presenta una lista de Eventos para registrar la asistencia de las Personas ya asignadas.  
+> Cuando seleccionamos un Evento y vamos a Registrar Asistencia, nos muestra el listado de personas posibles de marcarle la asistencia.  
+> Esas personas se pueden buscar por cualquiera de sus campos, y cuando se selecciona una, se puede marcar la Asistencia; esta acción queda registrada con el horario de realización.  
+> En el listado principal de Eventos se muestra un resumen de los Eventos con Cantidad total de Personas y Cantidad de Asistentes.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Características de la Aplicación
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Funcionalidad Offline/Online
+- Utiliza **IndexedDB** para almacenar datos localmente.
+- Detecta automáticamente el estado de la conexión.
+- **Sincroniza** los datos cuando se restaura la conexión.
 
-### `npm test`
+### 2. Estructura de Datos
+- **Eventos**: nombre, descripción, fecha, estado (abierto/cerrado).
+- **Personas**: nombre, número de credencial, DNI, email.
+- **Registros de asistencia**: incluyen marca de tiempo.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. Interfaz de Usuario
+- Pantalla principal con **lista de eventos** y resumen de asistencia.
+- Pantalla de **detalle del evento** para registrar asistencias.
+- **Búsqueda** de personas por cualquier campo (nombre, credencial, DNI, email).
+- **Indicador visual** del estado de conexión y sincronización.
 
-### `npm run build`
+### 4. Progressive Web App
+- Implementación de **Service Worker** para funcionamiento offline.
+- Archivo **manifest.json** para instalación como aplicación.
+- **Precarga** de recursos críticos.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Cómo Funciona la Aplicación
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. Página Principal (Home)
+- Muestra la lista de eventos disponibles.
+- Para cada evento se visualiza:
+  - Nombre
+  - Descripción
+  - Fecha
+  - Estado
+  - Total de personas
+  - Cantidad de asistentes
+- Permite filtrar eventos por nombre o descripción.
 
-### `npm run eject`
+### 2. Página de Detalle del Evento
+- Muestra información detallada del evento.
+- Lista todas las personas asignadas al evento.
+- Permite buscar personas por nombre, credencial, DNI o email.
+- Permite **marcar asistencia** con registro de horario.
+- Muestra un resumen con el total de personas y asistentes.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 3. Sistema de Sincronización
+- Sincronización automática cuando la conexión está disponible.
+- Indicador en la parte inferior muestra el estado de conexión.
+- Las operaciones realizadas offline se **encolan** y se sincronizan al recuperar conexión.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Tecnologías Utilizadas
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **React.js** para la interfaz de usuario.
+- **IndexedDB** para almacenamiento local.
+- **Service Workers** para funcionalidad offline.
+- **Material-UI** para componentes visuales.
+- **React Context API** para manejo del estado global.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Recomendaciones para Entorno de Producción
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Reemplazar las funciones **mock** de API por llamadas reales al backend.
+2. Configurar correctamente el **Service Worker** (el código está comentado en el proyecto).
+3. Crear los **iconos requeridos** para el archivo `manifest.json`.
+4. Implementar un sistema de **autenticación**, si es necesario.
