@@ -2,6 +2,7 @@
 # Aplicación PWA en React para Control de Asistencia a Eventos
 
 ## Prompt Original (Claude 3.7 Sonnet)
+https://claude.ai/chat/357ae486-73d6-4bab-98d1-19f1378424c1
 
 > Necesito una aplicación en ReactJS PWA con capacidad de trabajar offline/online, para control de asistencia a eventos de personas.  
 > Tanto los Eventos como las Personas relacionadas a cada Evento ya se encuentran ingresados en el Sistema.  
