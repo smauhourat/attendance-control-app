@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import apiClient from '../api/client';
 
 // Initialize IndexedDB
 const initDB = async () => {
@@ -30,38 +31,48 @@ const initDB = async () => {
 
 // Mock API functions (replace with actual API calls in production)
 const fetchEventsFromAPI = async () => {
+
+    const { data } = await apiClient.get('/events');
+    
+    return data;
+
     // In a real app, this would be an API call
     // For demo purposes, returning mock data
-    return [
-        {
-            id: 1,
-            name: 'Conferencia Anual',
-            description: 'Conferencia anual de tecnología',
-            date: '2025-05-15',
-            status: 'open'
-        },
-        {
-            id: 2,
-            name: 'Taller de Desarrollo',
-            description: 'Taller práctico de desarrollo web',
-            date: '2025-05-20',
-            status: 'open'
-        },
-        {
-            id: 3,
-            name: 'Encuentro de Networking',
-            description: 'Evento para expandir tu red de contactos',
-            date: '2025-04-30',
-            status: 'closed'
-        }
-    ];
+    // return [
+    //     {
+    //         id: 1,
+    //         name: 'Conferencia Anual',
+    //         description: 'Conferencia anual de tecnología',
+    //         date: '2025-05-15',
+    //         status: 'open'
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Taller de Desarrollo',
+    //         description: 'Taller práctico de desarrollo web',
+    //         date: '2025-05-20',
+    //         status: 'open'
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Encuentro de Networking',
+    //         description: 'Evento para expandir tu red de contactos',
+    //         date: '2025-04-30',
+    //         status: 'closed'
+    //     }
+    // ];
 };
 
 const fetchPersonsByEventFromAPI = async (eventId) => {
+
+    const { data } = await apiClient.get(`/events/${eventId}/persons`);
+
+    return data;
+
     // In a real app, this would be an API call
     // For demo purposes, returning mock data
     const personsMap = {
-        1: [
+        '681ce5e5dd7617f1eaaf5455': [
             { id: 101, name: 'Juan Pérez', credentialNumber: 'A12345', dni: '26789456', email: 'juan@example.com' },
             { id: 102, name: 'María López', credentialNumber: 'A12346', dni: '30456789', email: 'maria@example.com' },
             { id: 103, name: 'Carlos Gómez', credentialNumber: 'A12347', dni: '28456123', email: 'carlos@example.com' },
@@ -137,12 +148,12 @@ export const getPersonsByEvent = async (eventId) => {
     // If no persons in local DB, fetch from API and store locally
     if (persons.length === 0) {
         persons = await fetchPersonsByEventFromAPI(eventId);
-
+        console.log('persons =>', persons)
         // Add eventId to each person
-        persons = persons.map(person => ({
-            ...person,
-            eventId: parseInt(eventId)
-        }));
+        // persons = persons.map(person => ({
+        //     ...person,
+        //     eventId: eventId
+        // }));
 
         // Store persons in IndexedDB
         const tx = db.transaction('persons', 'readwrite');

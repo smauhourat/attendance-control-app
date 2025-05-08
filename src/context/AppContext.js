@@ -47,7 +47,7 @@ export const AppProvider = ({ children }) => {
         if (isOnline) {
             interval = setInterval(() => {
                 handleSync();
-            }, 5 * 60 * 1000); // Sync every 5 minutes
+            }, 1 * 60 * 1000); // Sync every 1 minutes
         }
 
         return () => {
