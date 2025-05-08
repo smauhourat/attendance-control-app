@@ -48,11 +48,11 @@ app.use(compression());
 // app.use(xss());
 
 // Rate limiting
-const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutos
-    max: 100 // límite de 100 peticiones por IP
-});
-app.use(limiter);
+// const limiter = rateLimit({
+//     windowMs: 10 * 60 * 1000, // 10 minutos
+//     max: 100 // límite de 100 peticiones por IP
+// });
+// app.use(limiter);
 
 // Prevenir polución de parámetros HTTP
 app.use(hpp());

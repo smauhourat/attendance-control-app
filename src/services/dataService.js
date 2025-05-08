@@ -98,6 +98,7 @@ const fetchPersonsByEventFromAPI = async (eventId) => {
 const sendAttendanceToAPI = async (eventId, personId, timestamp) => {
     // In a real app, this would be an API call to send attendance data
     console.log(`Sending attendance for event ${eventId}, person ${personId} at ${timestamp}`);
+    await apiClient.post('/attendance', JSON.stringify({ eventId, personId }))
     // Return true to simulate successful API call
     return true;
 };
@@ -110,7 +111,7 @@ export const getEvents = async () => {
     let events = await db.getAll('events');
 
     // If no events in local DB, fetch from API and store locally
-    if (events.length === 0) {
+    //if (events.length === 0) {
         events = await fetchEventsFromAPI();
 
         // Store events in IndexedDB
@@ -119,7 +120,7 @@ export const getEvents = async () => {
             tx.store.put(event);
         }
         await tx.done;
-    }
+    //}
 
     // Fetch attendance data to calculate counts
     const attendanceRecords = await db.getAll('attendance');
@@ -149,6 +150,13 @@ export const getPersonsByEvent = async (eventId) => {
     if (persons.length === 0) {
         persons = await fetchPersonsByEventFromAPI(eventId);
         console.log('persons =>', persons)
+
+        // esto es nuevo mio
+        persons = persons.map(person => ({
+            ...person,
+            id: person._id
+        }));
+
         // Add eventId to each person
         // persons = persons.map(person => ({
         //     ...person,
@@ -187,8 +195,8 @@ export const markAttendance = async (eventId, personId) => {
 
     // Create attendance record
     const attendanceRecord = {
-        eventId: parseInt(eventId),
-        personId: parseInt(personId),
+        eventId: eventId,
+        personId: personId,
         timestamp
     };
 

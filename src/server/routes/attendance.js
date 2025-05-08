@@ -13,8 +13,10 @@ const router = express.Router();
 
 router
     .route('/')
-    .get(protect, getAttendances)
-    .post(protect, recordAttendance);
+    //.get(protect, getAttendances)
+    .get(getAttendances)
+    .post(recordAttendance);
+    //.post(protect, recordAttendance);
 
 router
     .route('/:id')
